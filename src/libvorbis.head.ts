@@ -99,26 +99,30 @@ class VorbisWorkerScript {
         if (!this.document) {
             return null;
         }
-        
-        const script = <HTMLScriptElement>(<any> document).currentScript;
-        const scriptSrc = script.getAttribute('src');
-        
-        const absoluteRegex = /^(blob\:|http\:|https\:)/;
-        
         let url: string;
-        
-        if (absoluteRegex.test(scriptSrc)) {
-            url = scriptSrc;
-        } else {
-            const dirname = location.pathname.split('/').slice(0, -1).join('/');
+        try {
+            const script = <HTMLScriptElement>(<any> document).currentScript;
+            const scriptSrc = script.getAttribute('src');
             
-            url = `${location.protocol}//${location.host}`;
+            const absoluteRegex = /^(blob\:|http\:|https\:)/;
             
-            if (scriptSrc[0] === '/') {
-                url += scriptSrc;
+            
+            
+            if (absoluteRegex.test(scriptSrc)) {
+                url = scriptSrc;
             } else {
-                url += dirname + '/' + scriptSrc;
-            }	
+                const dirname = location.pathname.split('/').slice(0, -1).join('/');
+                
+                url = `${location.protocol}//${location.host}`;
+                
+                if (scriptSrc[0] === '/') {
+                    url += scriptSrc;
+                } else {
+                    url += dirname + '/' + scriptSrc;
+                }    
+            }
+        } catch (e) {
+            url = "error cannot get current script url";
         }
         
         return () => url;
