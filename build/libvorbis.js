@@ -68,22 +68,27 @@ var VorbisWorkerScript = (function () {
         if (!this.document) {
             return null;
         }
-        var script = document.currentScript;
-        var scriptSrc = script.getAttribute('src');
-        var absoluteRegex = /^(blob\:|http\:|https\:)/;
         var url;
-        if (absoluteRegex.test(scriptSrc)) {
-            url = scriptSrc;
-        }
-        else {
-            var dirname = location.pathname.split('/').slice(0, -1).join('/');
-            url = location.protocol + "//" + location.host;
-            if (scriptSrc[0] === '/') {
-                url += scriptSrc;
+        try {
+            var script = document.currentScript;
+            var scriptSrc = script.getAttribute('src');
+            var absoluteRegex = /^(blob\:|http\:|https\:)/;
+            if (absoluteRegex.test(scriptSrc)) {
+                url = scriptSrc;
             }
             else {
-                url += dirname + '/' + scriptSrc;
+                var dirname = location.pathname.split('/').slice(0, -1).join('/');
+                url = location.protocol + "//" + location.host;
+                if (scriptSrc[0] === '/') {
+                    url += scriptSrc;
+                }
+                else {
+                    url += dirname + '/' + scriptSrc;
+                }
             }
+        }
+        catch (e) {
+            url = "error cannot get current script url";
         }
         return function () { return url; };
     })();
