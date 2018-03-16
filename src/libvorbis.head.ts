@@ -8,6 +8,7 @@
 // BEGIN BlobEvent shim
 interface Window {
     BlobEvent: any;
+    LIBVORBISJS_URL: string;
 }
 
 var window: Window;
