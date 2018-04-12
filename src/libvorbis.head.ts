@@ -272,7 +272,7 @@ class VorbisMediaRecorder {
         this._encoder = new VorbisEncoder();
         this._chunks = [];
         
-        this._ctx = new AudioContext();
+        this._ctx = new(window.AudioContext || window.webkitAudioContext)
         this._sourceNode = this._ctx.createMediaStreamSource(stream);
         this._procNode = this._ctx.createScriptProcessor(4096);
         

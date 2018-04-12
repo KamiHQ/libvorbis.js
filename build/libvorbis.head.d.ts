@@ -5,6 +5,7 @@
 /// <reference path="../src/vorbis_encoder.d.ts" />
 interface Window {
     BlobEvent: any;
+    LIBVORBISJS_URL: string;
 }
 declare var window: Window;
 declare class VorbisWorkerScript {
